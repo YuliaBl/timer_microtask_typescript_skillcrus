@@ -12,21 +12,26 @@ code {
     monospace;
 }
 
-.timer {
+.container {
   display: flex;
-  flex-direction: row;
-  margin-top: 50 px;
-  justify-content: center;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
 }
 
 .timer-clock {
   display: flex;
-  margin-top: 50 px;
-  justify-content: center;
+  align-items: center;
   width: fit-content;
-  height: fit-content;
-  margin-right: 20px;
-  align-content: center;
+  padding: 20px;
+  font-size: 50px;
+  border: solid 4px;
+  border-radius: 100px;
+  border-color: #3f50b5;
+}
+
+.timer-button {
+  display: flex;
+  justify-content: center;
 }
 

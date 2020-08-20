@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import "../index.css";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import SvgIcon from "@material-ui/core/SvgIcon";
 
 
 export const Timer: React.FC = () => {
+
+  // const min: number = 1;
+  // const zeroPoint: number = min.toString().padStart(1, 0).Number();
+
   const [seconds, setSeconds] = useState<number>(59)
   const [minutes, setMinutes] = useState<number>(1);
   const [isCount, setIsCount] = useState<boolean>(false);
 
-  // const zeroPoint = (): number =>
-
   const helpReset = (): void => {
     setSeconds(59);
     setMinutes(1);
-    setIsCount(false);
+    setIsCount(false)
   }
 
   const secondsCounter = () => {
@@ -44,36 +47,49 @@ export const Timer: React.FC = () => {
 
 
   return (
-    <div className="timer">
-      <div className="timer-clock">{minutes} : {seconds}</div>
+    <Fragment>
+      <div className="timer-clock">
+        {minutes} : {seconds}
+      </div>
       <div className="timer-button">
         {!isCount ? (
-          <Button
-            variant="contained"
+          <IconButton
+            className="timer-button_start"
             color="primary"
+            aria-label="start"
             onClick={() => setIsCount(true)}
           >
-            START
-          </Button>
+            <SvgIcon style={{ fontSize: 50 }}>
+              <path d="M2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2A10,10 0 0,0 2,12M4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12M10,17L15,12L10,7V17Z" />
+            </SvgIcon>
+          </IconButton>
         ) : (
-          <Button
-            variant="contained"
+          <IconButton
+            className="timer-button_pause"
             color="secondary"
+            aria-label="pause"
             onClick={() => setIsCount(false)}
           >
-            PAUSE
-          </Button>
+            <SvgIcon style={{ fontSize: 50 }}>
+              <path d="M13,16V8H15V16H13M9,16V8H11V16H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" />
+            </SvgIcon>
+          </IconButton>
         )}
-        <Button
-          variant="contained"
+        <IconButton
+          className="timer-button_reset"
           color="inherit"
+          aria-label="reset"
           onClick={() => {
             helpReset();
           }}
         >
-          RESET
-        </Button>
+          <SvgIcon style={{ fontSize: 50 }}>
+            <path
+              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M9,9V15H15V9"
+            />
+          </SvgIcon>
+        </IconButton>
       </div>
-    </div>
+    </Fragment>
   );
 }
