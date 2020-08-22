@@ -2,38 +2,45 @@ import React, { useState, useEffect, Fragment } from 'react'
 import "../index.css";
 import IconButton from "@material-ui/core/IconButton";
 import SvgIcon from "@material-ui/core/SvgIcon";
+import Input from '@material-ui/core/Input'
 
 
 export const Timer: React.FC = () => {
 
-  // const min: number = 1;
-  // const zeroPoint: number = min.toString().padStart(1, 0).Number();
-
-  const [seconds, setSeconds] = useState<number>(59)
-  const [minutes, setMinutes] = useState<number>(1);
-  const [isCount, setIsCount] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState(0)
+  const [minutes, setMinutes] = useState(0);
+  const [isCount, setIsCount] = useState(false);
+  // как указать тип данных для const [seconds, setSeconds]?
 
   const helpReset = (): void => {
-    setSeconds(59);
-    setMinutes(1);
     setIsCount(false)
+    setSeconds(0);
+    setMinutes(0);
   }
 
-  const secondsCounter = () => {
-    // не понимаю какой ту должен быть тип, думала void, но он нарушает работу очистки таймаута
 
-    const timerId: number = window.setTimeout(() => {
-      setSeconds((seconds) => seconds - 1);
+  const secondsCounter = async () => {
+    // не понимаю какой ту должен быть тип, думала void, но он нарушает работу очистки таймаута
+    // ене уверена что тут нужен async/await
+
+
+    const timerId: number = await window.setTimeout(() => {
+      setSeconds(seconds - 1);
     }, 1000);
 
     if (seconds === 0) {
       setSeconds(59);
-      setMinutes((minutes) => minutes - 1)
-    } else { return () => window.clearTimeout(timerId);}
+      setMinutes(minutes - 1);
+    }
+    else {
+     return () => window.clearTimeout(timerId);
+    }
 
     if (seconds === 0 && minutes === 0) {
-      alert('finish');
       helpReset();
+      alert("finish");
+    } else {
+      return () => window.clearTimeout(timerId);
     }
   }
 
@@ -48,8 +55,15 @@ export const Timer: React.FC = () => {
 
   return (
     <Fragment>
+      <Input
+        className="timer-input"
+        type="number"
+        placeholder="min"
+        value={minutes}
+        onChange={(e: React.ChangeEvent<any>) => setMinutes(e.target.value)}
+      ></Input>
       <div className="timer-clock">
-        {minutes} : {seconds}
+        {minutes < 10 ? String(minutes).padStart(2, "0") : minutes} : {seconds < 10 ? String(seconds).padStart(2, "0") : seconds}
       </div>
       <div className="timer-button">
         {!isCount ? (
@@ -84,9 +98,7 @@ export const Timer: React.FC = () => {
           }}
         >
           <SvgIcon style={{ fontSize: 50 }}>
-            <path
-              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M9,9V15H15V9"
-            />
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M9,9V15H15V9" />
           </SvgIcon>
         </IconButton>
       </div>

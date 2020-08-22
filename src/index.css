@@ -19,11 +19,17 @@ code {
   margin-top: 50px;
 }
 
+.timer-input {
+  display: flex;
+  align-items: center;
+}
+
 .timer-clock {
   display: flex;
   align-items: center;
   width: fit-content;
   padding: 20px;
+  margin-top: 20px;
   font-size: 50px;
   border: solid 4px;
   border-radius: 100px;
@@ -33,5 +39,6 @@ code {
 .timer-button {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
