@@ -1,8 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import "../index.css";
-import IconButton from "@material-ui/core/IconButton";
-import SvgIcon from "@material-ui/core/SvgIcon";
-import Input from '@material-ui/core/Input'
+import { IconButton, SvgIcon, TextField } from "@material-ui/core";
 
 
 export const Timer: React.FC = () => {
@@ -10,7 +8,7 @@ export const Timer: React.FC = () => {
   const [seconds, setSeconds] = useState(0)
   const [minutes, setMinutes] = useState(0);
   const [isCount, setIsCount] = useState(false);
-  // как указать тип данных для const [seconds, setSeconds]?
+  // как указать тип данных для const [seconds, setSeconds] и надо ли это?
 
   const helpReset = (): void => {
     setIsCount(false)
@@ -19,12 +17,11 @@ export const Timer: React.FC = () => {
   }
 
 
-  const secondsCounter = async () => {
-    // не понимаю какой ту должен быть тип, думала void, но он нарушает работу очистки таймаута
-    // ене уверена что тут нужен async/await
+  const secondsCounter = () => {
+    // не уверена что тут нужен async/await без него работает так же криво как с ним
 
 
-    const timerId: number = await window.setTimeout(() => {
+    const timerId: number = window.setTimeout(() => {
       setSeconds(seconds - 1);
     }, 1000);
 
@@ -55,15 +52,16 @@ export const Timer: React.FC = () => {
 
   return (
     <Fragment>
-      <Input
-        className="timer-input"
+      <TextField
+        id="standard-number"
+        label="Minutes"
         type="number"
-        placeholder="min"
         value={minutes}
         onChange={(e: React.ChangeEvent<any>) => setMinutes(e.target.value)}
-      ></Input>
+      />
       <div className="timer-clock">
-        {minutes < 10 ? String(minutes).padStart(2, "0") : minutes} : {seconds < 10 ? String(seconds).padStart(2, "0") : seconds}
+        {minutes < 10 ? String(minutes).padStart(2, "0") : minutes} :{" "}
+        {seconds < 10 ? String(seconds).padStart(2, "0") : seconds}
       </div>
       <div className="timer-button">
         {!isCount ? (
