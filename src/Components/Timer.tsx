@@ -5,39 +5,36 @@ import { IconButton, SvgIcon, TextField } from "@material-ui/core";
 
 export const Timer: React.FC = () => {
 
-  const [seconds, setSeconds] = useState(0)
+  const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [isCount, setIsCount] = useState(false);
   // как указать тип данных для const [seconds, setSeconds] и надо ли это?
-
-  const helpReset = (): void => {
-    setIsCount(false)
-    setSeconds(0);
-    setMinutes(0);
-  }
 
 
   const secondsCounter = () => {
     // не уверена что тут нужен async/await без него работает так же криво как с ним
 
+    const helpReset = (): void => {
+    setIsCount(false)
+    setSeconds(0);
+    setMinutes(0);
+    return () => window.clearTimeout(timerId);
+  }
 
-    const timerId: number = window.setTimeout(() => {
+    const timerId: ReturnType<typeof setTimeout> = setTimeout(() => {
       setSeconds(seconds - 1);
     }, 1000);
+    clearTimeout(timerId);
 
-    if (seconds === 0) {
-      setSeconds(59);
-      setMinutes(minutes - 1);
-    }
-    else {
-     return () => window.clearTimeout(timerId);
-    }
+      if (seconds === 0) {
+        setSeconds(59);
+        setMinutes(minutes - 1);
+      }
 
     if (seconds === 0 && minutes === 0) {
       helpReset();
       alert("finish");
-    } else {
-      return () => window.clearTimeout(timerId);
+      clearTimeout(timerId);
     }
   }
 
@@ -57,7 +54,10 @@ export const Timer: React.FC = () => {
         label="Minutes"
         type="number"
         value={minutes}
-        onChange={(e: React.ChangeEvent<any>) => setMinutes(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+          setMinutes(Number(e.target.value));
+          e.preventDefault();
+        }}
       />
       <div className="timer-clock">
         {minutes < 10 ? String(minutes).padStart(2, "0") : minutes} :{" "}
