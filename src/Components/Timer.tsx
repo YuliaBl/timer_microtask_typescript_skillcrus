@@ -8,39 +8,52 @@ export const Timer: React.FC = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [isCount, setIsCount] = useState(false);
-  // как указать тип данных для const [seconds, setSeconds] и надо ли это?
 
-
-  const secondsCounter = () => {
-    // не уверена что тут нужен async/await без него работает так же криво как с ним
-
-    const helpReset = (): void => {
+  const helpReset = (): void => {
     setIsCount(false)
     setSeconds(0);
     setMinutes(0);
-    return () => window.clearTimeout(timerId);
+
   }
 
-    const timerId: ReturnType<typeof setTimeout> = setTimeout(() => {
-      setSeconds(seconds - 1);
-    }, 1000);
-    clearTimeout(timerId);
+  // const secondsCounter = () => {
 
+
+  //     if (seconds === 0) {
+  //       setSeconds(59);
+  //       setMinutes(minutes - 1);
+  //     }
+  //   const timerId: ReturnType<typeof setTimeout> = setTimeout(() => {
+  //     setSeconds(seconds - 1);
+  //   }, 1000);
+
+
+  //   if (seconds === 0 && minutes === 0) {
+  //     helpReset();
+  //     alert("finish");
+  //     }
+
+  //     return () => clearTimeout(timerId);
+  // }
+
+  useEffect(() => {
+    if (isCount) {
+      // secondsCounter()
       if (seconds === 0) {
         setSeconds(59);
         setMinutes(minutes - 1);
       }
+    const timerId: ReturnType<typeof setTimeout> = setTimeout(() => {
+      setSeconds(seconds - 1);
+    }, 1000);
+
 
     if (seconds === 0 && minutes === 0) {
       helpReset();
       alert("finish");
-      clearTimeout(timerId);
-    }
-  }
+      }
 
-  useEffect((): void => {
-    if (isCount) {
-      secondsCounter()
+      return () => clearTimeout(timerId);
     }
     return undefined;
   }, [seconds, minutes, isCount]);
